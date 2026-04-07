@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AskPupkin - Main page</title>
+    <title>AskPupkin - Question page</title>
     <link rel="icon" href="static/img/favicon.ico">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
 </head>
@@ -18,9 +18,15 @@
                     <button class="btn btn-outline-light" type="submit">Search</button>
                 </form>
                 <a href="ask.html" class="btn btn-success">Ask</a>
-                <div class="d-flex gap-2">
-                    <a href="login.html" class="btn btn-outline-light">Log in</a>
-                    <a href="signup.html" class="btn btn-success">Sign up</a>
+                <div class="d-flex align-items-center gap-2">
+                    <img src="static/img/avatars/default.jpg" alt="avatar" class="rounded-circle" width="40" height="40">
+                    <div class="text-white">
+                        <div>username</div>
+                        <div>
+                            <a href="profile.html" class="text-primary text-decoration-none">Profile</a>
+                            <a href="#" class="text-danger ms-2 text-decoration-none">Log out</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -28,13 +34,71 @@
 
     <main class="container my-4 flex-grow-1">
         <div class="row">
-            <div class="col-lg-8  mb-4">
-                <div class="d-flex align-items-center mb-4">
-                    <h3 class="mb-0">New Questions</h3>
-                    <a href="#" class="text-decoration-none ms-3">Hot Questions</a>
-                </div>
+            <div class="col-lg-8 mb-4">
 
                 <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2 col-md-2 text-center ps-3">
+                                <div class="d-flex flex-column align-items-center">
+                                    <img src="static/img/avatars/default.jpg" alt="avatar" class="rounded-circle" width="64" height="64">
+                                    <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
+                                        <button class="btn btn-sm btn-outline-success px-1 py-0">▲</button>
+                                        <span class="fw-bold">2</span>
+                                        <button class="btn btn-sm btn-outline-danger px-1 py-0">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-10 col-md-10">
+                                <h5 class="card-title text-dark">How to fix unzip error in Ubuntu 18.04?</h5>
+                                <p class="card-text text-secondary">
+                                    I have an archive. When unpacking it manually, I get the error message "an error occurred while extracting files." 
+                                    I tried using different archive managers, but nothing helps. The archive opens fine on Windows. 
+                                    What could be the problem? Ubuntu 18.04, unzip version 6.0.
+                                </p>
+                                <div class="mt-2">
+                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">linux</a>
+                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">ubuntu</a>
+                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">zip</a>
+                                </div>
+                                <div class="d-flex gap-3 mt-2">
+                                    <a href="#" class="text-primary text-decoration-none small">answers (2)</a>
+                                    <small class="text-secondary">asked 2 hours ago by <a href="#" class="text-decoration-none">gwoix</a></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="mb-3">Answers (2)</h5>
+
+                <div class="card shadow-sm mb-4 border-success">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2 col-md-2 text-center ps-3">
+                                <div class="d-flex flex-column align-items-center">
+                                    <img src="static/img/avatars/default.jpg" alt="avatar" class="rounded-circle" width="48" height="48">
+                                    <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
+                                        <button class="btn btn-sm btn-success px-1 py-0">▲</button>
+                                        <span class="fw-bold">5</span>
+                                        <button class="btn btn-sm btn-outline-danger px-1 py-0">▼</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-10 col-md-10">
+                                <p class="card-text text-secondary">
+                                    The issue is likely a corrupted central directory. Fix the archive first, then extract. This worked for me many times.
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-secondary">answered 30 minutes ago by <a href="#" class="text-decoration-none">uxzard</a></small>
+                                    <span class="badge bg-success">Correct answer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-3">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-2 col-md-2 text-center ps-3">
@@ -48,105 +112,55 @@
                                 </div>
                             </div>
                             <div class="col-10 col-md-10">
-                                <h5 class="card-title">
-                                    <a href="question.html" class="text-decoration-none text-dark">How to fix unzip error in Ubuntu 18.04?</a>
-                                </h5>
                                 <p class="card-text text-secondary">
-                                    I have an archive. When unpacking it manually, I get the error message "an error occurred while extracting files."..
+                                    Try installing p7zip-full instead, then use 7z to extract. The standard unzip sometimes has issues with certain compression methods.
                                 </p>
-                                <div class="mt-2">
-                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">linux</a>
-                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">ubuntu</a>
-                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">zip</a>
-                                </div>
-                                <div class="d-flex gap-3 mt-2">
-                                    <a href="question.html" class="text-primary text-decoration-none small">answers (2)</a>
-                                    <small class="text-secondary">asked 2 hours ago by <a href="#" class="text-decoration-none">gwoix</a></small>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <small class="text-secondary">answered 1 hour ago by <a href="#" class="text-decoration-none">genry33</a></small>
+                                    <!-- <button class="btn btn-sm btn-outline-success">Mark as correct</button> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card shadow-sm mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-2 col-md-2 text-center ps-3">
-                                <div class="d-flex flex-column align-items-center">
-                                    <img src="static/img/avatars/default.jpg" alt="avatar" class="rounded-circle" width="48" height="48">
-                                    <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
-                                        <button class="btn btn-sm btn-success px-1 py-0">▲</button>
-                                        <span class="fw-bold">7</span>
-                                        <button class="btn btn-sm btn-outline-danger px-1 py-0">▼</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-10 col-md-10">
-                                <h5 class="card-title">
-                                    <a href="question.html" class="text-decoration-none text-dark">Where does the image disappear to on the website?</a>
-                                </h5>
-                                <p class="card-text text-secondary">
-                                    The path to the file is correct, but there is no image on the website.
-                                </p>
-                                <div class="mt-2">
-                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">javascript</a>
-                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">html</a>
-                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">css</a>
-                                </div>
-                                <div class="d-flex gap-3 mt-2">
-                                    <a href="question.html" class="text-primary text-decoration-none small">answers (3)</a>
-                                    <small class="text-secondary">asked yesterday by <a href="#" class="text-decoration-none">vatix</a></small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card shadow-sm mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-2 col-md-2 text-center ps-3">
-                                <div class="d-flex flex-column align-items-center">
-                                    <img src="static/img/avatars/default.jpg" alt="avatar" class="rounded-circle" width="48" height="48">
-                                    <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
-                                        <button class="btn btn-sm btn-outline-success px-1 py-0">▲</button>
-                                        <span class="fw-bold">4</span>
-                                        <button class="btn btn-sm btn-danger px-1 py-0">▼</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-10 col-md-10">
-                                <h5 class="card-title">
-                                    <a href="question.html" class="text-decoration-none text-dark">Why isn't Git pushing to Github?</a>
-                                </h5>
-                                <p class="card-text text-secondary">
-                                    It worked yesterday, but today nothing happens.
-                                </p>
-                                <div class="mt-2">
-                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">git</a>
-                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">github</a>
-                                    <a href="#" class="badge bg-secondary text-decoration-none me-1">windows</a>
-                                </div>
-                                <div class="d-flex gap-3 mt-2">
-                                    <a href="question.html" class="text-primary text-decoration-none small">answers (2)</a>
-                                    <small class="text-secondary">asked 3 days ago by <a href="#" class="text-decoration-none">monojic</a></small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <nav class="mt-4">
+                <nav class="mt-3 mb-4">
                     <ul class="pagination justify-content-center">
                         <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                         <li class="page-item active"><span class="page-link">1</span></li>
                         <li class="page-item"><a class="page-link" href="#">2</a></li>
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
                         <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
                 </nav>
+
+                <!-- Форма ответа для неавторизованного пользователя -->
+                <!-- <div class="card mt-4">
+                    <div class="card-header bg-white fw-bold">Your answer</div>
+                    <div class="card-body">
+                        <p class="text-secondary">Please <a href="login.html">log in</a> or <a href="signup.html">register</a> to answer.</p>
+                    </div>
+                </div> -->
+
+                <!-- Форма ответа для авторизированного пользователя -->
+                <div class="card mt-4">
+                    <div class="card-header bg-white fw-bold">Your answer</div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="5" placeholder="Enter your answer here.."></textarea>
+                                <div class="text-danger small mt-1">Answer cannot be empty</div>
+                                <div class="text-secondary small mt-1">Maximum 5000 characters.</div>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                            <button type="submit" class="btn btn-success">Answer</button>
+                            <div class="alert alert-danger mb-0 py-2 d-inline-flex align-items-center" role="alert">
+                                Please correct the errors above
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-4">
