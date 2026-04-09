@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Hot questions{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center mb-4">
+    <h3 class="mb-0">Hot Questions</h3>
+    <a href="{% url 'questions:index' %}" class="text-decoration-none ms-3">New Questions</a>
+</div>
+
+{% for question in questions %}
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-2 col-md-2 text-center ps-3">
+                <div class="d-flex flex-column align-items-center">
+                    <img src="{% static 'img/avatars/default.jpg' %}" alt="avatar" class="rounded-circle" width="48" height="48">
+                    <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
+                        <button class="btn btn-sm btn-outline-success px-1 py-0">▲</button>
+                        <span class="fw-bold">{{ question.rating }}</span>
+                        <button class="btn btn-sm btn-outline-danger px-1 py-0">▼</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-10 col-md-10">
+                <h5 class="card-title">
+                    <a href="{% url 'questions:question' question.id %}" class="text-decoration-none text-dark">{{ question.title }}</a>
+                </h5>
+                <p class="card-text text-secondary">{{ question.text|truncatechars:100 }}</p>
+                <div class="mt-2">
+                    {% for tag in question.tags %}
+                    <a href="{% url 'questions:tag' tag %}" class="badge bg-secondary text-decoration-none me-1">{{ tag }}</a>
+                    {% endfor %}
+                </div>
+                <div class="d-flex gap-3 mt-2">
+                    <a href="{% url 'questions:question' question.id %}" class="text-primary text-decoration-none small">answers ({{ question.answers_count }})</a>
+                    <small class="text-secondary">asked {{ question.created_at }} by <a href="#" class="text-decoration-none">{{ question.author }}</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% empty %}
+<p>No questions yet.</p>
+{% endfor %}
+
+{% include 'questions/pagination.html' %}
+{% endblock %}

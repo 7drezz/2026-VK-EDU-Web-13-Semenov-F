@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">Profile Settings</h3>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="text-center mb-4">
+            <img src="{% static 'img/avatars/default.jpg' %}" alt="avatar" class="rounded-circle" width="120" height="120">
+        </div>
+
+        <form>
+            <div class="mb-3">
+                <label for="login" class="form-label fw-semibold">Login</label>
+                <input type="text" class="form-control" id="login" value="username">
+                <div class="text-secondary small mt-1">Latin characters, numbers and underscores only.</div>
+                <div class="text-danger small mt-1">This login is already taken</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label fw-semibold">Email</label>
+                <input type="email" class="form-control" id="email" value="user@example.com">
+                <div class="text-danger small mt-1">Invalid email address</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="nickname" class="form-label fw-semibold">Nickname</label>
+                <input type="text" class="form-control" id="nickname" value="User">
+                <div class="text-danger small mt-1">Nickname cannot be empty</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="avatar" class="form-label fw-semibold">Upload new avatar</label>
+                <input type="file" class="form-control" id="avatar">
+                <div class="text-secondary small mt-1">JPG, PNG. Max 2MB.</div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <button type="submit" class="btn btn-success">Save</button>
+                <div class="alert alert-danger mb-0 py-2 d-inline-flex align-items-center" role="alert">
+                    Please correct the errors above
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
