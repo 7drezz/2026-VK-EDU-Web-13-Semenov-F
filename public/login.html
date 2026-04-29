@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskPupkin - Log in</title>
+    <link rel="icon" href="static/img/favicon.ico">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <header class="bg-dark py-3">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <a href="index.html" class="text-white text-decoration-none fs-3">AskPupkin</a>
+                <form class="d-flex flex-grow-1" style="max-width: 500px;">
+                    <input class="form-control me-2" type="search" placeholder="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+                <a href="ask.html" class="btn btn-success">Ask</a>
+
+                <div class="d-flex gap-2">
+                    <a href="login.html" class="btn btn-outline-light">Log in</a>
+                    <a href="signup.html" class="btn btn-success">Sign up</a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-4 flex-grow-1">
+        <div class="row">
+            <div class="col-lg-8 mb-4">
+                <h3 class="mb-4">Log in</h3>
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="alert alert-danger" role="alert">
+                            Sorry, wrong login or password!
+                        </div>
+
+                        <form>
+                            <div class="mb-3">
+                                <label for="login" class="form-label fw-semibold">Login</label>
+                                <input type="text" class="form-control" id="login" placeholder="Enter your login">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password" class="form-label fw-semibold">Password</label>
+                                <input type="password" class="form-control" id="password" placeholder="••••••••">
+                            </div>
+
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="remember">
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Log in</button>
+                        </form>
+
+                        <div class="mt-3">
+                            <a href="signup.html" class="text-decoration-none">Create new account</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header bg-white fw-bold">Popular Tags</div>
+                    <div class="card-body">
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">python</a>
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">java</a>
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">go</a>
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">django</a>
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">postgresql</a>
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">docker</a>
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">bootstrap</a>
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">git</a>
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">linux</a>
+                        <a href="#" class="badge bg-secondary text-decoration-none me-1 mb-1">nginx</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header bg-white fw-bold">Best Members</div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><a href="#" class="text-decoration-none">nosleep</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none">dima_pakov</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none">pokemon</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none">oleg</a></li>
+                            <li class="mb-2"><a href="#" class="text-decoration-none">k019n</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <small class="text-white">© 2026 AskPupkin</small>
+        </div>
+    </footer>
+
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
