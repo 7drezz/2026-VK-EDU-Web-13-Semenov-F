@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Ask a question{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">New Question</h3>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form>
+            <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">Title</label>
+                <input type="text" class="form-control" id="title" placeholder="How to..">
+                <div class="text-danger small mt-1">Title is required</div>
+                <div class="text-secondary small">Maximum 200 characters.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="text" class="form-label fw-semibold">Text</label>
+                <textarea class="form-control" id="text" rows="6" placeholder="Describe your question in detail.."></textarea>
+                <div class="text-danger small mt-1">Please write more details</div>
+                <div class="text-secondary small">Minimum 20 characters.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="tags" class="form-label fw-semibold">Tags</label>
+                <input type="text" class="form-control" id="tags" placeholder="python, django, postgresql">
+                <div class="text-danger small mt-1">Maximum 3 tags allowed</div>
+                <div class="text-secondary small">Use up to 3 tags, separated by commas.</div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <button type="submit" class="btn btn-success">Ask</button>
+                <div class="alert alert-danger mb-0 py-2 d-inline-flex align-items-center" role="alert">
+                    Please correct the errors above
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
