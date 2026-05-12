@@ -29,13 +29,13 @@
                 </h5>
                 <p class="card-text text-secondary">{{ question.text|truncatechars:100 }}</p>
                 <div class="mt-2">
-                    {% for tag in question.tags %}
+                    {% for tag in question.tags.all %}
                     <a href="{% url 'questions:tag' tag %}" class="badge bg-secondary text-decoration-none me-1">{{ tag }}</a>
                     {% endfor %}
                 </div>
                 <div class="d-flex gap-3 mt-2">
-                    <a href="{% url 'questions:question' question.id %}" class="text-primary text-decoration-none small">answers ({{ question.answers_count }})</a>
-                    <small class="text-secondary">asked {{ question.created_at }} by <a href="#" class="text-decoration-none">{{ question.author }}</a></small>
+                    <a href="{% url 'questions:question' question.id %}" class="text-primary text-decoration-none small">answers ({{ question.answers.count }})</a>
+                    <small class="text-secondary">asked {{ question.created_at|timesince }} ago by <a href="#" class="text-decoration-none">{{ question.author.username }}</a></small>
                 </div>
             </div>
         </div>

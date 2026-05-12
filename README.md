@@ -1,5 +1,25 @@
 # AskPupkin - сайт вопросов и ответов
 
+## Статическая вёрстка
+
+### Как открыть
+
+1. Скачать репозиторий
+2. Открыть папку `public`
+3. Дважды кликнуть по `index.html`
+
+### Страницы
+
+- `index.html` — главная
+- `question.html` — страница вопроса
+- `ask.html` — создать вопрос
+- `login.html` — вход
+- `signup.html` — регистрация
+- `profile.html` — профиль
+- `base.html` — базовый макет
+
+Все страницы лежат в папке `public/`.
+
 ## Django
 
 ### Запуск
@@ -21,7 +41,9 @@
 
 ### Запуск через Docker
 
-`docker compose up --build`
+```bash
+docker compose up --build
+```
 
 Откройте: http://localhost:8000
 
@@ -36,29 +58,28 @@
 - `/signup/` — регистрация
 - `/profile/` — профиль
 
-## Статическая вёрстка
+## База данных
 
-### Как открыть
+### Настройка
 
-1. Скачать репозиторий
-2. Открыть папку `public`
-3. Дважды кликнуть по `index.html`
+1. Создайте БД PostgreSQL: `CREATE DATABASE askpupkin;`
+2. Скопируйте `.env.example` в `.env`, укажите пароль
+3. Выполните миграции: `python manage.py migrate`
+4. Заполните данными: `python manage.py fill_db 10` (или `10000` для полного объема)
+5. Создайте админа: `python manage.py createsuperuser`
+6. Админка: `http://127.0.0.1:8000/admin/`
 
-### Страницы
+### Docker
 
-- `index.html` — главная
-- `question.html` — страница вопроса
-- `ask.html` — создать вопрос
-- `login.html` — вход
-- `signup.html` — регистрация
-- `profile.html` — профиль
-- `base.html` — базовый макет
+```bash
+docker-compose up --build
+docker-compose exec web python manage.py migrate
+docker-compose exec web python manage.py fill_db 10
+```
 
-Все страницы лежат в папке `public/`.
+## Технологии
 
-### Технологии
-
-HTML, Bootstrap (локально), CSS.
+HTML, Bootstrap (локально), CSS, Django, PostgreSQL.
 
 ## Автор
 
