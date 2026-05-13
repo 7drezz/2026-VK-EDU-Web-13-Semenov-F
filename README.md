@@ -75,11 +75,12 @@ docker compose up --build
 docker-compose up --build
 docker-compose exec web python manage.py migrate
 docker-compose exec web python manage.py fill_db 10
+docker-compose exec web python manage.py createsuperuser
 ```
 
 ## Технологии
 
-HTML, Bootstrap (локально), CSS, Django, PostgreSQL.
+HTML, Bootstrap (локально), CSS, JavaScript,  Django, PostgreSQL.
 
 ## Автор
 
