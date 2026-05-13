@@ -8,26 +8,37 @@
 
 <div class="card shadow-sm">
     <div class="card-body">
-        <div class="alert alert-danger" role="alert">
-            Sorry, wrong login or password!
-        </div>
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ form.non_field_errors.0 }}
+            </div>
+        {% endif %}
 
-        <form>
+        <form method="post">
+            {% csrf_token %}
+
             <div class="mb-3">
-                <label for="login" class="form-label fw-semibold">Login</label>
-                <input type="text" class="form-control" id="login" placeholder="Enter your login">
+                <label for="{{ form.username.id_for_label }}" class="form-label fw-semibold">Login</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="mb-3">
-                <label for="password" class="form-label fw-semibold">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="••••••••">
+                <label for="{{ form.password.id_for_label }}" class="form-label fw-semibold">Password</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+                {% endif %}
             </div>
 
             <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="remember">
+                <input type="checkbox" class="form-check-input" id="remember" name="remember">
                 <label class="form-check-label" for="remember">Remember me</label>
             </div>
 
+            <input type="hidden" name="next" value="{{ next }}">
             <button type="submit" class="btn btn-success">Log in</button>
         </form>
 

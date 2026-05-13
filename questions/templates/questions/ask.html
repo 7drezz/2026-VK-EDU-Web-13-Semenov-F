@@ -8,34 +8,45 @@
 
 <div class="card shadow-sm">
     <div class="card-body">
-        <form>
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
             <div class="mb-3">
-                <label for="title" class="form-label fw-semibold">Title</label>
-                <input type="text" class="form-control" id="title" placeholder="How to..">
-                <div class="text-danger small mt-1">Title is required</div>
+                <label for="{{ form.title.id_for_label }}" class="form-label fw-semibold">Title</label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="text-danger small mt-1">{{ form.title.errors.0 }}</div>
+                {% endif %}
                 <div class="text-secondary small">Maximum 200 characters.</div>
             </div>
 
             <div class="mb-3">
-                <label for="text" class="form-label fw-semibold">Text</label>
-                <textarea class="form-control" id="text" rows="6" placeholder="Describe your question in detail.."></textarea>
-                <div class="text-danger small mt-1">Please write more details</div>
+                <label for="{{ form.text.id_for_label }}" class="form-label fw-semibold">Text</label>
+                {{ form.text }}
+                {% if form.text.errors %}
+                    <div class="text-danger small mt-1">{{ form.text.errors.0 }}</div>
+                {% endif %}
                 <div class="text-secondary small">Minimum 20 characters.</div>
             </div>
 
             <div class="mb-3">
-                <label for="tags" class="form-label fw-semibold">Tags</label>
-                <input type="text" class="form-control" id="tags" placeholder="python, django, postgresql">
-                <div class="text-danger small mt-1">Maximum 3 tags allowed</div>
+                <label for="{{ form.tags.id_for_label }}" class="form-label fw-semibold">Tags</label>
+                {{ form.tags }}
+                {% if form.tags.errors %}
+                    <div class="text-danger small mt-1">{{ form.tags.errors.0 }}</div>
+                {% endif %}
                 <div class="text-secondary small">Use up to 3 tags, separated by commas.</div>
             </div>
 
-            <div class="d-flex align-items-center gap-3">
-                <button type="submit" class="btn btn-success">Ask</button>
-                <div class="alert alert-danger mb-0 py-2 d-inline-flex align-items-center" role="alert">
-                    Please correct the errors above
-                </div>
-            </div>
+            <button type="submit" class="btn btn-success">Ask</button>
         </form>
     </div>
 </div>
