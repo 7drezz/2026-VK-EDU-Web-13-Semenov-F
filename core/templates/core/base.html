@@ -15,10 +15,13 @@
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
                 <a href="{% url 'questions:index' %}" class="text-white text-decoration-none fs-3">AskPupkin</a>
                 
-                <form class="d-flex flex-grow-1" style="max-width: 500px;">
-                    <input class="form-control me-2" type="search" placeholder="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
-                </form>
+                <div class="position-relative flex-grow-1" style="max-width: 500px;">
+                    <input id="search-input" class="form-control" type="search" 
+                        placeholder="Search..." autocomplete="off"
+                        data-search-url="{% url 'questions:search_suggestions' %}">
+                    <div id="search-dropdown" class="list-group position-absolute w-100 shadow d-none" 
+                        style="top: 100%; z-index: 1060; max-height: 300px; overflow-y: auto;"></div>
+                </div>
                 
                 <a href="{% url 'questions:ask' %}" class="btn btn-success">Ask</a>
                 
@@ -54,16 +57,13 @@
                 <div class="card mb-4">
                     <div class="card-header bg-white fw-bold">Popular Tags</div>
                     <div class="card-body">
-                        <a href="{% url 'questions:tag' 'python' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">python</a>
-                        <a href="{% url 'questions:tag' 'java' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">java</a>
-                        <a href="{% url 'questions:tag' 'go' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">go</a>
-                        <a href="{% url 'questions:tag' 'django' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">django</a>
-                        <a href="{% url 'questions:tag' 'postgresql' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">postgresql</a>
-                        <a href="{% url 'questions:tag' 'docker' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">docker</a>
-                        <a href="{% url 'questions:tag' 'bootstrap' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">bootstrap</a>
-                        <a href="{% url 'questions:tag' 'git' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">git</a>
-                        <a href="{% url 'questions:tag' 'linux' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">linux</a>
-                        <a href="{% url 'questions:tag' 'nginx' %}" class="badge bg-secondary text-decoration-none me-1 mb-1">nginx</a>
+                        {% for tag in popular_tags %}
+                            <a href="{% url 'questions:tag' tag.name %}" class="badge bg-secondary text-decoration-none me-1 mb-1">
+                                {{ tag.name }}
+                            </a>
+                        {% empty %}
+                            <p class="text-secondary small">No tags yet.</p>
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -71,11 +71,15 @@
                     <div class="card-header bg-white fw-bold">Best Members</div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">
-                            <li class="mb-2"><a href="#" class="text-decoration-none">nosleep</a></li>
-                            <li class="mb-2"><a href="#" class="text-decoration-none">dima_pakov</a></li>
-                            <li class="mb-2"><a href="#" class="text-decoration-none">pokemon</a></li>
-                            <li class="mb-2"><a href="#" class="text-decoration-none">oleg</a></li>
-                            <li class="mb-2"><a href="#" class="text-decoration-none">k019n</a></li>
+                            {% for member in best_members %}
+                                <li class="mb-2">
+                                    <a href="#" class="text-decoration-none">
+                                        {{ member.nickname|default:member.username }}
+                                    </a>
+                                </li>
+                            {% empty %}
+                                <li class="text-secondary small">No members yet.</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
@@ -91,5 +95,6 @@
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/likes.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
 </body>
 </html>

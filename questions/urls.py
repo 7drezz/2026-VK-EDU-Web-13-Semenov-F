@@ -14,4 +14,6 @@ urlpatterns = [
     path('api/answer/<int:answer_id>/like/', views.answer_like, name='answer_like'),
     path('api/answer/<int:answer_id>/correct/', views.answer_correct, name='answer_correct'),
     path('api/answer/<int:answer_id>/unmark/', views.answer_unmark, name='answer_unmark'),
+    path('api/search/', views.search_suggestions, name='search_suggestions'),
+    path('centrifugo/token/', views.centrifugo_token, name='centrifugo_token'),
 ]

@@ -69,6 +69,24 @@ function markAnswer(answerId) {
     .catch(error => console.error(error));
 }
 
+function unmarkAnswer(answerId) {
+    if (!confirm('Unmark this answer as correct?')) return;
+    
+    const url = `/api/answer/${answerId}/unmark/`;
+    
+    fetch(url, {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrftoken }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.success) {
+            location.reload();
+        }
+    })
+    .catch(error => console.error(error));
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.question-like-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {

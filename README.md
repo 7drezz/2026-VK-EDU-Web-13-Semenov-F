@@ -41,6 +41,16 @@
 
 ### Запуск через Docker
 
+### Переменные окружения
+
+Скопируйте `.env.example` в `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Запустите Docker:
+
 ```bash
 docker compose up --build
 ```
