@@ -107,4 +107,17 @@
         {% endif %}
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/centrifuge@4.1.0/dist/centrifuge.js"></script>
+<script>
+fetch('/centrifugo/token/')
+    .then(r => r.json())
+    .then(data => {
+        const centrifuge = new Centrifuge('ws://localhost:8003/connection/websocket', { token: data.token });
+        const sub = centrifuge.newSubscription('questions:{{ question.id }}');
+        sub.on('publication', () => location.reload());
+        sub.subscribe();
+        centrifuge.connect();
+    })
+    .catch(err => console.error('Token error:', err));
+</script>
 {% endblock %}

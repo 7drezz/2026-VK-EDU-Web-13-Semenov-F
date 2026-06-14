@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models import Count
+from django.utils import timezone
+from datetime import timedelta
 
 class QuestionManager(models.Manager):
     
@@ -23,5 +26,11 @@ class AnswerManager(models.Manager):
 
 class TagManager(models.Manager):
     
-    def popular(self):
-        return self.get_queryset().all()
+    def popular(self, limit=20):
+        three_months_ago = timezone.now() - timedelta(days=90)
+        return self.filter(
+            questions__is_active=True,
+            questions__created_at__gte=three_months_ago
+        ).annotate(
+            question_count=Count('questions')
+        ).order_by('-question_count')[:limit]

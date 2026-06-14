@@ -3,14 +3,42 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.utils import timezone
+from datetime import timedelta
+from django.db.models import Sum, Q
 
 def avatar_upload_path(instance, filename):
     ext = filename.split('.')[-1]
     return f'avatars/user_{instance.user.id}_{instance.user.username}.{ext}'
 
+class ProfileManager(models.Manager):
+    def best_members(self, limit=10):
+        one_week_ago = timezone.now() - timedelta(days=7)
+        
+        from django.contrib.auth.models import User
+        
+        users = User.objects.filter(
+            Q(questions__created_at__gte=one_week_ago) | 
+            Q(answers__created_at__gte=one_week_ago)
+        ).annotate(
+            total_rating=(
+                Sum('questions__rating', filter=Q(questions__created_at__gte=one_week_ago), default=0) +
+                Sum('answers__rating', filter=Q(answers__created_at__gte=one_week_ago), default=0)
+            )
+        ).order_by('-total_rating')[:limit]
+        
+        return [
+            {
+                'id': u.id,
+                'username': u.username,
+                'nickname': u.profile.nickname,
+                'total_rating': u.total_rating or 0
+            }
+            for u in users
+        ]
 
 class Profile(models.Model):
+    objects = ProfileManager()
     user = models.OneToOneField(
         User, 
         on_delete=models.CASCADE, 

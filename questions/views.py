@@ -1,11 +1,15 @@
+import time
+import jwt
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 from .models import Question, Answer, Tag
 from .forms import AskForm, AnswerForm
+from .tasks import send_new_answer_notification, publish_new_answer
 
 
 def paginate(objects_list, request, per_page=20):
@@ -75,17 +79,36 @@ def question(request, question_id):
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(user=request.user, question=question_obj)
+            
+            if question_obj.author != request.user and question_obj.author.email:
+                send_new_answer_notification.delay(
+                    question_obj.author.email,
+                    question_obj.title,
+                    answer.text[:200],
+                    question_obj.id
+                )
+
+            from django.utils import timezone
+            answer_data = {
+                'id': answer.id,
+                'text': answer.text,
+                'author_username': answer.author.username,
+                'rating': answer.rating,
+                'created_at': timezone.now().isoformat(),
+            }
+            publish_new_answer.delay(question_obj.id, answer_data)
+            
             paginator = Paginator(answers, 30)
             last_page = paginator.num_pages if paginator.num_pages > 0 else 1
             return redirect(f"{reverse('questions:question', args=[question_id])}?page={last_page}#answer-{answer.id}")
     else:
         form = AnswerForm()
-
+    
     return render(request, 'questions/question.html', {
         'question': question_obj,
         'page': page,
         'answers': page.object_list,
-        'answer_form': form
+        'answer_form': form,
     })
 
 
@@ -168,3 +191,37 @@ def answer_unmark(request, answer_id):
             'is_correct': False
         })
     return JsonResponse({'error': 'Answer was not marked as correct'}, status=400)
+
+
+@require_GET
+def search_suggestions(request):
+    query = request.GET.get('q', '').strip()
+    
+    if len(query) < 2:
+        return JsonResponse({'suggestions': []})
+    
+    questions = Question.objects.filter(is_active=True).extra(
+        where=["to_tsvector('simple', title || ' ' || text) @@ plainto_tsquery('simple', %s)"],
+        params=[query]
+    )[:10]
+    
+    suggestions = [
+        {
+            'id': q.id,
+            'title': q.title,
+            'url': reverse('questions:question', args=[q.id])
+        }
+        for q in questions
+    ]
+    
+    return JsonResponse({'suggestions': suggestions})
+
+
+@login_required
+def centrifugo_token(request):
+    payload = {
+        'sub': str(request.user.id),
+        'exp': int(time.time()) + 3600,
+    }
+    token = jwt.encode(payload, settings.CENTRIFUGO_TOKEN_SECRET, algorithm='HS256')
+    return JsonResponse({'token': token})
