@@ -1,4 +1,15 @@
 services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: askpupkin
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   web:
     build: .
     ports:
@@ -6,3 +17,15 @@ services:
     volumes:
       - .:/app
       - ./media:/app/media
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: askpupkin
+      DB_USER: postgres
+      DB_PASSWORD: 12345678
+      DEBUG: "True"
+
+volumes:
+  postgres_data:
