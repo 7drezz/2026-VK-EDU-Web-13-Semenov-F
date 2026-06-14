@@ -31,6 +31,10 @@ class RegisterForm(UserCreationForm):
         max_length=50,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'How should we call you?'})
     )
+    avatar = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={'class': 'form-control'})
+    )
     password1 = forms.CharField(
         label="Password",
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '••••••••'}),
@@ -43,7 +47,17 @@ class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'nickname', 'password1', 'password2')
+        fields = ('username', 'email', 'nickname', 'avatar', 'password1', 'password2')
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar')
+        if avatar:
+            if avatar.size > 2 * 1024 * 1024:
+                raise forms.ValidationError('Avatar must not exceed 2MB.')
+            ext = avatar.name.split('.')[-1].lower()
+            if ext not in ['jpg', 'jpeg', 'png']:
+                raise forms.ValidationError('Only JPG and PNG are allowed.')
+        return avatar
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -81,8 +95,10 @@ class RegisterForm(UserCreationForm):
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
-            profile, _ = Profile.objects.get_or_create(user=user)
+            profile = user.profile
             profile.nickname = self.cleaned_data['nickname']
+            if self.cleaned_data.get('avatar'):
+                profile.avatar = self.cleaned_data['avatar']
             profile.save()
         return user
 
@@ -90,10 +106,14 @@ class RegisterForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    avatar = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = Profile
-        fields = ('nickname',)
+        fields = ('nickname', 'avatar')
         widgets = {
             'nickname': forms.TextInput(attrs={'class': 'form-control'}),
         }
@@ -105,6 +125,16 @@ class ProfileForm(forms.ModelForm):
             self.fields['username'].initial = self.user.username
             self.fields['email'].initial = self.user.email
             self.fields['nickname'].initial = self.user.profile.nickname
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get('avatar')
+        if avatar:
+            if avatar.size > 2 * 1024 * 1024:
+                raise forms.ValidationError('Avatar must not exceed 2MB.')
+            ext = avatar.name.split('.')[-1].lower()
+            if ext not in ['jpg', 'jpeg', 'png']:
+                raise forms.ValidationError('Only JPG and PNG are allowed.')
+        return avatar
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -145,6 +175,8 @@ class ProfileForm(forms.ModelForm):
 
         profile = self.user.profile
         profile.nickname = self.cleaned_data['nickname']
+        if self.cleaned_data.get('avatar'):
+            profile.avatar = self.cleaned_data['avatar']
         if commit:
             profile.save()
         return profile

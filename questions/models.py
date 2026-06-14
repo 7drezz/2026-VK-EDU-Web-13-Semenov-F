@@ -45,6 +45,37 @@ class Question(models.Model):
     
     def answers_count(self):
         return self.answers.count()
+    
+    def get_user_vote(self, user):
+        if user.is_authenticated:
+            try:
+                return self.likes.get(user=user).value
+            except:
+                return 0
+        return 0
+
+    def vote(self, user, value):
+        if not user.is_authenticated:
+            return None
+        
+        existing = self.likes.filter(user=user).first()
+        
+        if existing:
+            if existing.value == value:
+                existing.delete()
+                self.rating -= value
+                value = 0
+            else:
+                old_value = existing.value
+                existing.value = value
+                existing.save()
+                self.rating += value - old_value
+        else:
+            self.likes.create(user=user, value=value)
+            self.rating += value
+        
+        self.save(update_fields=['rating'])
+        return value
 
 
 class Answer(models.Model):
@@ -75,6 +106,56 @@ class Answer(models.Model):
     
     def __str__(self):
         return f'Ответ #{self.id} на вопрос #{self.question_id}'
+
+    def get_user_vote(self, user):
+        if user.is_authenticated:
+            try:
+                return self.likes.get(user=user).value
+            except:
+                return 0
+        return 0
+
+    def vote(self, user, value):
+        if not user.is_authenticated:
+            return None
+        
+        existing = self.likes.filter(user=user).first()
+
+        if existing:
+            if existing.value == value:
+                existing.delete()
+                self.rating -= value
+                value = 0
+            else:
+                old_value = existing.value
+                existing.value = value
+                existing.save()
+                self.rating += value - old_value
+        else:
+            self.likes.create(user=user, value=value)
+            self.rating += value
+        
+        self.save(update_fields=['rating'])
+        return value
+
+
+    def mark_as_correct(self, user):
+        if user != self.question.author:
+            return False
+        
+        self.question.answers.update(is_correct=False)
+        self.is_correct = True
+        self.save(update_fields=['is_correct'])
+        return True
+    
+    def unmark_as_correct(self, user):
+        if user != self.question.author:
+            return False
+        if self.is_correct:
+            self.is_correct = False
+            self.save(update_fields=['is_correct'])
+            return True
+        return False
 
 
 class QuestionLike(models.Model):

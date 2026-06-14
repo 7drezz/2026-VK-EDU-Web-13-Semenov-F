@@ -24,7 +24,7 @@
                 
                 {% if user.is_authenticated %}
                     <div class="d-flex align-items-center gap-2">
-                        <img src="{% static 'img/avatars/default.jpg' %}" alt="avatar" class="rounded-circle" width="40" height="40">
+                        <img src="{{ user.profile.get_avatar_url }}" class="rounded-circle" width="40" height="40">
                         <div class="text-white">
                             <div>{{ user.profile.nickname|default:user.username }}</div>
                             <div>
@@ -90,5 +90,6 @@
     </footer>
 
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/likes.js' %}"></script>
 </body>
 </html>

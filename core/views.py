@@ -37,7 +37,7 @@ def signup_view(request):
         return redirect('questions:index')
 
     if request.method == 'POST':
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth.login(request, user)
@@ -57,7 +57,7 @@ def logout_view(request):
 @login_required
 def profile_view(request):
     if request.method == 'POST':
-        form = ProfileForm(request.POST, user=request.user)
+        form = ProfileForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated successfully')

@@ -9,4 +9,9 @@ urlpatterns = [
     path('tag/<str:tag_name>/', views.tag, name='tag'),
     path('question/<int:question_id>/', views.question, name='question'),
     path('ask/', views.ask, name='ask'),
+    
+    path('api/question/<int:question_id>/like/', views.question_like, name='question_like'),
+    path('api/answer/<int:answer_id>/like/', views.answer_like, name='answer_like'),
+    path('api/answer/<int:answer_id>/correct/', views.answer_correct, name='answer_correct'),
+    path('api/answer/<int:answer_id>/unmark/', views.answer_unmark, name='answer_unmark'),
 ]

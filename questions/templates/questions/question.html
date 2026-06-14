@@ -9,11 +9,15 @@
         <div class="row">
             <div class="col-2 col-md-2 text-center ps-3">
                 <div class="d-flex flex-column align-items-center">
-                    <img src="{% static 'img/avatars/default.jpg' %}" alt="avatar" class="rounded-circle" width="64" height="64">
+                    <img src="{{ question.author.profile.get_avatar_url }}" class="rounded-circle" width="64" height="64">
                     <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
-                        <button class="btn btn-sm btn-outline-success px-1 py-0">▲</button>
-                        <span class="fw-bold">{{ question.rating }}</span>
-                        <button class="btn btn-sm btn-outline-danger px-1 py-0">▼</button>
+                        <button class="btn btn-sm question-like-btn question-up-{{ question.id }} 
+                            {% if question.user_vote == 1 %}btn-success{% else %}btn-outline-success{% endif %}" 
+                                data-question-id="{{ question.id }}" data-value="1">▲</button>
+                        <span class="fw-bold question-rating-{{ question.id }}">{{ question.rating }}</span>
+                        <button class="btn btn-sm question-like-btn question-down-{{ question.id }} 
+                            {% if question.user_vote == -1 %}btn-danger{% else %}btn-outline-danger{% endif %}" 
+                                data-question-id="{{ question.id }}" data-value="-1">▼</button>
                     </div>
                 </div>
             </div>
@@ -37,25 +41,40 @@
 <h5 class="mb-3">Answers ({{ page.paginator.count }})</h5>
 
 {% for answer in answers %}
-<div class="card shadow-sm mb-3 {% if answer.is_correct %}border-success{% endif %}">
+<div class="card shadow-sm mb-3 answer-{{ answer.id }} answer-card {% if answer.is_correct %}border-success{% endif %}">
     <div class="card-body">
         <div class="row">
             <div class="col-2 col-md-2 text-center ps-3">
                 <div class="d-flex flex-column align-items-center">
-                    <img src="{% static 'img/avatars/default.jpg' %}" alt="avatar" class="rounded-circle" width="48" height="48">
+                    <img src="{{ answer.author.profile.get_avatar_url }}" class="rounded-circle" width="48" height="48">
                     <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
-                        <button class="btn btn-sm btn-outline-success px-1 py-0">▲</button>
-                        <span class="fw-bold">{{ answer.rating }}</span>
-                        <button class="btn btn-sm btn-outline-danger px-1 py-0">▼</button>
+                        <button class="btn btn-sm answer-like-btn answer-up-{{ answer.id }} 
+                               {% if answer.user_vote == 1 %}btn-success{% else %}btn-outline-success{% endif %}" 
+                                data-answer-id="{{ answer.id }}" data-value="1">▲</button>
+                        <span class="fw-bold answer-rating-{{ answer.id }}">{{ answer.rating }}</span>
+                        <button class="btn btn-sm answer-like-btn answer-down-{{ answer.id }} 
+                               {% if answer.user_vote == -1 %}btn-danger{% else %}btn-outline-danger{% endif %}" 
+                                data-answer-id="{{ answer.id }}" data-value="-1">▼</button>
                     </div>
                 </div>
             </div>
             <div class="col-10 col-md-10">
                 <p class="card-text text-secondary">{{ answer.text }}</p>
-                <div class="d-flex justify-content-between align-items-center mt-2">
-                    <small class="text-secondary">answered {{ answer.created_at|timesince }} ago by <a href="#" class="text-decoration-none">{{ answer.author.username }}</a></small>
+                <div class="d-flex justify-content-between align-items-center mt-2 answer-footer">
+                    <small>answered {{ answer.created_at|timesince }} ago by {{ answer.author.username }}</small>
                     {% if answer.is_correct %}
-                    <span class="badge bg-success">Correct answer</span>
+                        <span class="badge bg-success correct-badge">
+                            Correct answer
+                            {% if user == question.author %}
+                                <button class="btn-close btn-close-white unmark-correct-btn" 
+                                        data-answer-id="{{ answer.id }}" 
+                                        style="font-size: 0.6rem; margin-left: 0.25rem;"></button>
+                            {% endif %}
+                        </span>
+                    {% endif %}
+                    {% if user == question.author and not answer.is_correct %}
+                        <button class="btn btn-sm btn-outline-success mark-correct-btn" 
+                                data-answer-id="{{ answer.id }}">Mark as correct</button>
                     {% endif %}
                 </div>
             </div>

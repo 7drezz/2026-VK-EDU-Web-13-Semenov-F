@@ -71,6 +71,8 @@ class AnswerForm(forms.ModelForm):
         text = self.cleaned_data.get('text')
         if not text or not text.strip():
             raise forms.ValidationError('Answer cannot be empty.')
+        if len(text) > 5000:
+            raise forms.ValidationError('Answer must not exceed 5000 characters.')
         return text
 
     def save(self, user, question, commit=True):

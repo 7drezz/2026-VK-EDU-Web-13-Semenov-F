@@ -9,7 +9,7 @@
 <div class="card shadow-sm">
     <div class="card-body">
         <div class="text-center mb-4">
-            <img src="{% static 'img/avatars/default.jpg' %}" alt="avatar" class="rounded-circle" width="120" height="120">
+            <img src="{{ user.profile.get_avatar_url }}" alt="avatar" class="rounded-circle" width="120" height="120">
         </div>
 
         {% if messages %}
@@ -24,7 +24,7 @@
             </div>
         {% endif %}
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="mb-3">
@@ -50,6 +50,15 @@
                 {% if form.nickname.errors %}
                     <div class="text-danger small mt-1">{{ form.nickname.errors.0 }}</div>
                 {% endif %}
+            </div>
+
+            <div class="mb-3">
+                <label for="{{ form.avatar.id_for_label }}" class="form-label fw-semibold">Avatar</label>
+                {{ form.avatar }}
+                {% if form.avatar.errors %}
+                    <div class="text-danger small mt-1">{{ form.avatar.errors.0 }}</div>
+                {% endif %}
+                <div class="text-secondary small">JPG, PNG. Max 2MB.</div>
             </div>
 
             <button type="submit" class="btn btn-success">Save</button>

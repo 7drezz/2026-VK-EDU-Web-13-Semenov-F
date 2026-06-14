@@ -14,11 +14,15 @@
         <div class="row">
             <div class="col-2 col-md-2 text-center ps-3">
                 <div class="d-flex flex-column align-items-center">
-                    <img src="{% static 'img/avatars/default.jpg' %}" alt="avatar" class="rounded-circle" width="48" height="48">
+                    <img src="{{ question.author.profile.get_avatar_url }}" class="rounded-circle" width="48" height="48">
                     <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
-                        <button class="btn btn-sm btn-outline-success px-1 py-0">▲</button>
-                        <span class="fw-bold">{{ question.rating }}</span>
-                        <button class="btn btn-sm btn-outline-danger px-1 py-0">▼</button>
+                        <button class="btn btn-sm question-like-btn question-up-{{ question.id }} 
+                            {% if question.user_vote == 1 %}btn-success{% else %}btn-outline-success{% endif %}" 
+                                data-question-id="{{ question.id }}" data-value="1">▲</button>
+                        <span class="fw-bold question-rating-{{ question.id }}">{{ question.rating }}</span>
+                        <button class="btn btn-sm question-like-btn question-down-{{ question.id }} 
+                            {% if question.user_vote == -1 %}btn-danger{% else %}btn-outline-danger{% endif %}" 
+                                data-question-id="{{ question.id }}" data-value="-1">▼</button>
                     </div>
                 </div>
             </div>
