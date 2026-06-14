@@ -88,9 +88,15 @@ docker-compose exec web python manage.py fill_db 10
 docker-compose exec web python manage.py createsuperuser
 ```
 
+## Результаты нагрузочного тестирования
+
+- Статика через nginx: **9689 RPS**
+- Статика через gunicorn: **365 RPS**, nginx быстрее в **26.5 раз**
+- Проксирование с кэшем: **276 RPS** (без кэша: 301 RPS) - кэш не дал прироста на динамической странице
+
 ## Технологии
 
-HTML, Bootstrap (локально), CSS, JavaScript,  Django, PostgreSQL.
+HTML, Bootstrap (локально), CSS, JavaScript, Django, PostgreSQL, Redis, Celery, Centrifugo, Gunicorn, Nginx.
 
 ## Автор
 
