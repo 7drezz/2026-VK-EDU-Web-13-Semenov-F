@@ -22,25 +22,24 @@
                 
                 <a href="{% url 'questions:ask' %}" class="btn btn-success">Ask</a>
                 
-                <!-- Неавторизованный пользователь -->
-                <div class="d-flex gap-2">
-                    <a href="{% url 'core:login' %}" class="btn btn-outline-light">Log in</a>
-                    <a href="{% url 'core:signup' %}" class="btn btn-success">Sign up</a>
-                </div>
-                
-                <!-- Авторизованный пользователь (закомментирован) -->
-                <!--
-                <div class="d-flex align-items-center gap-2">
-                    <img src="{% static 'img/avatars/default.jpg' %}" alt="avatar" class="rounded-circle" width="40" height="40">
-                    <div class="text-white">
-                        <div>username</div>
-                        <div>
-                            <a href="{% url 'core:profile' %}" class="text-primary text-decoration-none">Profile</a>
-                            <a href="#" class="text-danger ms-2 text-decoration-none">Log out</a>
+                {% if user.is_authenticated %}
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="{% static 'img/avatars/default.jpg' %}" alt="avatar" class="rounded-circle" width="40" height="40">
+                        <div class="text-white">
+                            <div>{{ user.profile.nickname|default:user.username }}</div>
+                            <div>
+                                <a href="{% url 'core:profile' %}" class="text-primary text-decoration-none">Profile</a>
+                                <a href="{% url 'core:logout' %}?next={{ request.path }}" class="text-danger ms-2 text-decoration-none">Log out</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                -->
+                {% else %}
+                    <div class="d-flex gap-2">
+                        <a href="{% url 'core:login' %}?next={{ request.path }}" class="btn btn-outline-light">Log in</a>
+                        <a href="{% url 'core:signup' %}" class="btn btn-success">Sign up</a>
+                    </div>
+                {% endif %}
+
             </div>
         </div>
     </header>
